@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="maro">
+    <output-path>$PROJECT_DIR$/docker-dir</output-path>
+    <root id="archive" name="maro.war">
+      <element id="javaee-facet-resources" facet="mvmoproject/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="mvmoproject" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
