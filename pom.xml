@@ -27,7 +27,17 @@
             <version>1.30.10</version>
             <scope>compile</scope>
         </dependency>
-    </dependencies>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-web-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.7.2</version>
+            <scope>provided</scope><!-- since I'm running inside a Java EE container -->
+        </dependency>    </dependencies>
     <properties>
         <maven.compiler.source>1.11</maven.compiler.source>
         <maven.compiler.target>1.11</maven.compiler.target>
