@@ -6,6 +6,8 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import entity.UserDTO;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Collections;
@@ -28,22 +30,29 @@ public class TokenChecker {
             .setAudience(Collections.singletonList(CLIENT_ID))
             .build();
 
-    public void tokenExtraction(String idTokenString) throws GeneralSecurityException, IOException {
+    public UserDTO tokenExtraction(String idTokenString) throws GeneralSecurityException, IOException {
         System.out.println("here in token extracxtion");
+        UserDTO userDTO=null;
         GoogleIdToken idToken = verifier.verify(idTokenString);
         if (idToken != null) {
+            userDTO =new UserDTO();
             GoogleIdToken.Payload payload = idToken.getPayload();
-
             // Print user identifier
             String userId = payload.getSubject();
+            userDTO.setSerialnumber(payload.getSubject());
             System.out.println("User ID: " + userId);
+            userDTO.setName((String) payload.get("name"));
             System.out.println("User name: " + (String) payload.get("name"));
+            userDTO.setFamily((String) payload.get("family_name"));
             System.out.println("User family: " + (String) payload.get("family_name"));
+            userDTO.setEmail(payload.getEmail());
             System.out.println("User email: " + payload.getEmail());
+       
+//            System.out.println("serial number: "+payload.get("sub"));
 
         } else {
             System.out.println("Invalid ID token.");
         }
-
+    return userDTO;
     }
 }
