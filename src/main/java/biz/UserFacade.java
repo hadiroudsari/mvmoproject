@@ -40,7 +40,7 @@ public class UserFacade {
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("problem here");
+            System.out.println("problem here in creating new user");
             System.out.println(ex.getMessage());
         }
         return id;
@@ -49,18 +49,18 @@ public class UserFacade {
 
     public boolean checkUser(UserDTO userDTO) {
         System.out.println("in check user");
-        boolean UserAvailabe = false;
+        boolean UserAvailable = false;
         String SQL = "SELECT * from userTable where serNumber =?;";
         try (Connection conn = ConnectionGenerator.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)) {
             pstmt.setString(1, userDTO.getSerialnumber());
             System.out.println(pstmt.toString());
             ResultSet rs = pstmt.executeQuery();
-            UserAvailabe = displayActor(rs, false);
+            UserAvailable = displayActor(rs, false);
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return UserAvailabe;
+        return UserAvailable;
     }
 
     private boolean displayActor(ResultSet rs, boolean b) {
@@ -71,7 +71,7 @@ public class UserFacade {
                 System.out.println("it is a new user");
 
             } else {
-                System.out.println("the user  exists already");
+                System.out.println("the user has  already exist");
                 b = true;
 
                 System.out.println(rs.getString("name") + "\t"

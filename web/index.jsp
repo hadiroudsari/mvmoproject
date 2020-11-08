@@ -8,34 +8,48 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <meta name="google-signin-client_id" content="407580017200-0hu9t079pn3476scpk39n3gs9m29q59f.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+          content="407580017200-0hu9t079pn3476scpk39n3gs9m29q59f.apps.googleusercontent.com">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <title>Title</title>
 </head>
 <body>
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
-
-hhhhh
+<%--    <div class="g-signin2" data-onsuccess="onSignIn"></div>--%>
 <script>
+    var xhr = new XMLHttpRequest();
+
     function onSignIn(googleUser) {
         // var id_token;
         // console.log('token first :'+id_token)
         var profile = googleUser.getBasicProfile();
         id_token = googleUser.getAuthResponse().id_token;
-        console.log('token second :'+id_token)
+        console.log('token second :' + id_token)
         console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
         console.log('Name: ' + profile.getName());
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
         if (id_token !== undefined) {
-            var xhr = new XMLHttpRequest();
-            xhr.open("POST", "http://localhost:8080/maro/MainServlet", true);
-            xhr.setRequestHeader('Content-Type', 'text/plain');
-            xhr.send(id_token);
-        }else console.log("id token is undefine");
+            // var xhr = new XMLHttpRequest();
+            if (xhr.readyState == 4 || xhr.readyState == 0) {
+                xhr.open("POST", "http://localhost:8080/maro/MainServlet", true);
+                xhr.setRequestHeader('Content-Type', 'text/plain');
+                xhr.onreadystatechange = callBackFunction;
+                xhr.send(id_token);
+            }
+        } else console.log("id token is undefine");
+
+        function callBackFunction() {
+            if (xhr.readyState == 4) {
+                var s = xhr.responseText;
+                console.log('the responce is'+s)
+                bank.balance.value=s;
+            }
+        }
     }
+
+
 </script>
-<a href="#" onclick="signOut();">Sign out</a>
+<%--<a href="#" onclick="signOut();">Sign out</a>--%>
 <script>
     function signOut() {
         var auth2 = gapi.auth2.getAuthInstance();
@@ -44,5 +58,11 @@ hhhhh
         });
     }
 </script>
+
+<form name="bank">
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+    <a href="#" onclick="signOut();">Sign out</a>
+     <input type="text" name="balance">
+</form>
 </body>
 </html>
