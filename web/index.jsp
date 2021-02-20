@@ -31,7 +31,8 @@
         if (id_token !== undefined) {
             // var xhr = new XMLHttpRequest();
             if (xhr.readyState == 4 || xhr.readyState == 0) {
-                xhr.open("POST", "http://localhost:8080/maro/MainServlet", true);
+                // xhr.open("POST", "https://localhost:8443/maro/MainServlet", true);
+                xhr.open("POST", "https://ec2-13-49-244-94.eu-north-1.compute.amazonaws.com:8443/maro/MainServlet", true);
                 xhr.setRequestHeader('Content-Type', 'text/plain');
                 xhr.onreadystatechange = callBackFunction;
                 xhr.send(id_token);

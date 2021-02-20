@@ -1,2 +1,6 @@
-from jboss/wildfly
+from jboss/wildfly:22.0.0.Final
 ADD maro.war /opt/jboss/wildfly/standalone/deployments/
+copy wildfly-pkcs12.pfx /opt/jboss/wildfly/standalone/configuration/
+copy standalone.xml /opt/jboss/wildfly/standalone/configuration/
+
+# from jboss/wildfly

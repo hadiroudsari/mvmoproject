@@ -23,17 +23,27 @@ public class TokenChecker {
      */
     static final JsonFactory JSON_FACTORY = new JacksonFactory();
 
-    private final String CLIENT_ID = "407580017200-0hu9t079pn3476scpk39n3gs9m29q59f.apps.googleusercontent.com";
+    private final static String CLIENT_WEB_ID = "407580017200-0hu9t079pn3476scpk39n3gs9m29q59f.apps.googleusercontent.com";
+    private final static String CLIENT_ANDROID_ID = "1004804260320-a7cvfc02hck8rikflvbhjg8um3appmf7.apps.googleusercontent.com";
 
 
-    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
-            .setAudience(Collections.singletonList(CLIENT_ID))
-            .build();
+
 
     public UserDTO tokenExtraction(String idTokenString) throws GeneralSecurityException, IOException {
         System.out.println("here in token extracxtion");
         UserDTO userDTO=null;
+        GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
+                .setAudience(Collections.singletonList(CLIENT_WEB_ID))
+                .build();
         GoogleIdToken idToken = verifier.verify(idTokenString);
+
+        if(idToken == null){
+            GoogleIdTokenVerifier verifierForAndroid = new GoogleIdTokenVerifier.Builder(HTTP_TRANSPORT, JSON_FACTORY)
+                    .setAudience(Collections.singletonList(CLIENT_ANDROID_ID))
+                    .build();
+           idToken = verifierForAndroid.verify(idTokenString);
+        }
+
         if (idToken != null) {
             userDTO =new UserDTO();
             GoogleIdToken.Payload payload = idToken.getPayload();
