@@ -2,6 +2,7 @@
 (google oauth2 authorization using java)
 
 This project used docker for contanerising Wildfly application server and postgreSQL database.
+I use  google oauth 2 API and create new user into database if the user sign in with gmail for the first time.In addition configure dockerised wildfly with ssl certificate. This project has a lot more cool thing to do but it is more for testing different technologies.
 for running the application you need go to docker folder run the docker and a
 ```bash
 
@@ -20,4 +21,4 @@ docker container run -d --name=pg -p 5432:5432 -e POSTGRES_PASSWORD=1234 -e PGDA
 
 ```
 
-mvmo use  google oauth 2 API and creat new user into database if the user sign in with gmail for the first time. This project has a lot more cool thing to do but it is more for testing different technologies.
+
