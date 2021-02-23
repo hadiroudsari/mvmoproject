@@ -9,14 +9,14 @@ docker container run -d --name=pg -p 5432:5432 -e POSTGRES_PASSWORD=1234 -e PGDA
 
 
 ```
-or you need to run both database and application from my dockerhub account use these command seperatly.
+Alternatively you can run both database and application from my dockerhub account use these command seperatly.
 ```
 docker run -p 8080:8080 -p 8443:8443 hadiroudsari/maro:2
 
 ```
 and
 ```
-docker run -p 8080:8080 -p 8443:8443 hadiroudsari/maro:2
+docker container run -d --name=pg -p 5432:5432 -e POSTGRES_PASSWORD=1234 -e PGDATA=/pgdata -v $(pwd)/pgdata:/pgdata hadiroudsari/pg:1
 
 ```
 
