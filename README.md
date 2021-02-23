@@ -1,7 +1,7 @@
 # mvmoproject
 (google oauth2 authorization using java)
 
-This project used docker for Wildfly application server.
+This project used docker for contanerising Wildfly application server and postgreSQL database.
 for running the application you need go to docker folder run the docker and a
 ```bash
 
@@ -9,5 +9,15 @@ docker container run -d --name=pg -p 5432:5432 -e POSTGRES_PASSWORD=1234 -e PGDA
 
 
 ```
+or you need to run both database and application from my dockerhub account use these command seperatly.
+```
+docker run -p 8080:8080 -p 8443:8443 hadiroudsari/maro:2
 
-mvmo use  google oauth 2 API and creat new user into database if the user sighn in with gmail for the first time. This project has a lot more cool thing to do but it is more for testing different technologies.
+```
+and
+```
+docker run -p 8080:8080 -p 8443:8443 hadiroudsari/maro:2
+
+```
+
+mvmo use  google oauth 2 API and creat new user into database if the user sign in with gmail for the first time. This project has a lot more cool thing to do but it is more for testing different technologies.
