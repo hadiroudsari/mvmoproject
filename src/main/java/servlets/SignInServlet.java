@@ -4,11 +4,13 @@ import biz.UserFacade;
 import entity.UserDTO;
 import tools.TokenChecker;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -22,7 +24,10 @@ public class SignInServlet extends HttpServlet {
             throws ServletException, IOException {
         System.out.println("process method signin servlet");
 //        ============================================================
-
+        /**
+         * @// TODO: 3/3/21 here we need some security constraint for sessions 
+         */
+        HttpSession httpSession=request.getSession();
         StringBuilder idTokenstringBuffer = new StringBuilder();
         System.out.println("post method has been arrived");
         BufferedReader bufferedReader = request.getReader();
@@ -37,7 +42,9 @@ public class SignInServlet extends HttpServlet {
         response.setContentType("text/plain");
         response.setHeader("Cache-Control", "no-cache");
         PrintWriter out = response.getWriter();
-
+        httpSession.setAttribute("name",userDTOAfterCheck.getName());
+//        RequestDispatcher view = request.getRequestDispatcher("secondPage.jsp");
+//        response.sendRedirect("secondPage.jsp");
         try {
             out.println("Hi "+userDTOAfterCheck.getName());
         } catch (Exception e) {

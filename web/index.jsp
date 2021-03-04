@@ -31,8 +31,8 @@
         if (id_token !== undefined) {
             // var xhr = new XMLHttpRequest();
             if (xhr.readyState == 4 || xhr.readyState == 0) {
-                // xhr.open("POST", "https://localhost:8443/maro/MainServlet", true);
-                xhr.open("POST", "https://ec2-13-49-244-94.eu-north-1.compute.amazonaws.com:8443/maro/MainServlet", true);
+                 xhr.open("POST", "https://localhost:8443/maro/MainServlet", true);
+             //   xhr.open("POST", "https://ec2-13-49-244-94.eu-north-1.compute.amazonaws.com:8443/maro/MainServlet", true);
                 xhr.setRequestHeader('Content-Type', 'text/plain');
                 xhr.onreadystatechange = callBackFunction;
                 xhr.send(id_token);
@@ -44,6 +44,7 @@
                 var s = xhr.responseText;
                 console.log('the responce is'+s)
                 bank.balance.value=s;
+                window.location.replace("https://localhost:8443/maro/Dispatcher");
             }
         }
     }
@@ -63,7 +64,8 @@
 <form name="bank">
     <div class="g-signin2" data-onsuccess="onSignIn"></div>
     <a href="#" onclick="signOut();">Sign out</a>
-     <input type="text" name="balance">
+<%--     <input type="text" name="balance">--%>
+    <output name="balance"> </output>
 </form>
 </body>
 </html>
