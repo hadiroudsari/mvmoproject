@@ -25,7 +25,7 @@ public class TokenChecker {
 
     private final static String CLIENT_WEB_ID = "407580017200-0hu9t079pn3476scpk39n3gs9m29q59f.apps.googleusercontent.com";
     private final static String CLIENT_ANDROID_ID = "1004804260320-a7cvfc02hck8rikflvbhjg8um3appmf7.apps.googleusercontent.com";
-
+    private String endUserFlag="WEB";
 
 
 
@@ -42,10 +42,12 @@ public class TokenChecker {
                     .setAudience(Collections.singletonList(CLIENT_ANDROID_ID))
                     .build();
            idToken = verifierForAndroid.verify(idTokenString);
+            endUserFlag="Android";
         }
 
         if (idToken != null) {
             userDTO =new UserDTO();
+            userDTO.setEndUserFlag(this.endUserFlag);
             GoogleIdToken.Payload payload = idToken.getPayload();
             // Print user identifier
             String userId = payload.getSubject();

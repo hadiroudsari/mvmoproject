@@ -6,7 +6,15 @@ public class UserDTO {
     private String family;
     private String email;
     private String serialnumber;
+    private String endUserFlag;
 
+    public String getEndUserFlag() {
+        return endUserFlag;
+    }
+
+    public void setEndUserFlag(String endUserFlag) {
+        this.endUserFlag = endUserFlag;
+    }
 
     public String getName() {
         return name;

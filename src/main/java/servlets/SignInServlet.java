@@ -39,19 +39,40 @@ public class SignInServlet extends HttpServlet {
 
 
 //        =============================================================
-        response.setContentType("text/plain");
-        response.setHeader("Cache-Control", "no-cache");
-        PrintWriter out = response.getWriter();
-        httpSession.setAttribute("name",userDTOAfterCheck.getName());
+        if(userDTOAfterCheck.getEndUserFlag().equals("WEB")) {
+            System.out.println("responce to the web user");
+            response.setContentType("text/plain");
+            response.setHeader("Cache-Control", "no-cache");
+            PrintWriter out = response.getWriter();
+            httpSession.setAttribute("name", userDTOAfterCheck.getName());
+            httpSession.setAttribute("serial", userDTOAfterCheck.getSerialnumber());
 //        RequestDispatcher view = request.getRequestDispatcher("secondPage.jsp");
 //        response.sendRedirect("secondPage.jsp");
-        try {
-            out.println("Hi "+userDTOAfterCheck.getName());
-        } catch (Exception e) {
-            System.out.println("error ");
-            System.out.println(e.toString());
-        } finally {
-            out.close();
+            try {
+                out.println("Hi " + userDTOAfterCheck.getName());
+            } catch (Exception e) {
+                System.out.println("error ");
+                System.out.println(e.toString());
+            } finally {
+                out.close();
+            }
+        }else if (userDTOAfterCheck.getEndUserFlag().equals("Android")){
+            System.out.println("responce to the android");
+            response.setContentType("text/plain");
+            response.setHeader("Cache-Control", "no-cache");
+            PrintWriter out = response.getWriter();
+//            httpSession.setAttribute("name", userDTOAfterCheck.getName());
+//            httpSession.setAttribute("serial", userDTOAfterCheck.getSerialnumber());
+//        RequestDispatcher view = request.getRequestDispatcher("secondPage.jsp");
+//        response.sendRedirect("secondPage.jsp");
+            try {
+                out.println(userDTOAfterCheck.getName()+"+_"+userDTOAfterCheck.getSerialnumber());
+            } catch (Exception e) {
+                System.out.println("error ");
+                System.out.println(e.toString());
+            } finally {
+                out.close();
+            }
         }
 
     }

@@ -24,6 +24,7 @@ public class Dispatcher extends HttpServlet {
             System.out.println("there is no session remain from new request");
         }else if(session!=null){
             System.out.println("session is still valid the name is"+session.getAttribute("name"));
+            System.out.println("session is still valid the serial number is"+session.getAttribute("serial"));
             String page = "/secondPage.jsp";
             ServletContext context = getServletContext();
             RequestDispatcher rd = context.getRequestDispatcher(page);
