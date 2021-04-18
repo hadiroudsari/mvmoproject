@@ -61,12 +61,12 @@ public class SignInServlet extends HttpServlet {
             response.setContentType("text/plain");
             response.setHeader("Cache-Control", "no-cache");
             PrintWriter out = response.getWriter();
-//            httpSession.setAttribute("name", userDTOAfterCheck.getName());
-//            httpSession.setAttribute("serial", userDTOAfterCheck.getSerialnumber());
+            httpSession.setAttribute("name", userDTOAfterCheck.getName());
+            httpSession.setAttribute("serial", userDTOAfterCheck.getSerialnumber());
 //        RequestDispatcher view = request.getRequestDispatcher("secondPage.jsp");
 //        response.sendRedirect("secondPage.jsp");
             try {
-                out.println(userDTOAfterCheck.getName()+"+_"+userDTOAfterCheck.getSerialnumber());
+                out.println(userDTOAfterCheck.getName()+"_"+userDTOAfterCheck.getSerialnumber());
             } catch (Exception e) {
                 System.out.println("error ");
                 System.out.println(e.toString());
