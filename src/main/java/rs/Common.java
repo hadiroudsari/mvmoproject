@@ -6,12 +6,14 @@ public class Common {
     private String error;
     private String opponent;
     private String battleId;
+    private String winnerName;
 
-    public Common(String status, String error, String opponent, String battleId) {
+    public Common(String status, String error, String opponent, String battleId,String winnerName) {
         this.status = status;
         this.error = error;
         this.opponent = opponent;
         this.battleId = battleId;
+        this.winnerName=winnerName;
     }
 
     public String getStatus() {
@@ -44,5 +46,13 @@ public class Common {
 
     public void setBattleId(String battleId) {
         this.battleId = battleId;
+    }
+
+    public String getWinnerName() {
+        return winnerName;
+    }
+
+    public void setWinnerName(String winnerName) {
+        this.winnerName = winnerName;
     }
 }
