@@ -30,7 +30,7 @@ public class PlayerQueue {
         }
     }
 
-    private boolean isPlayerAvailable(String serial) {
+    public boolean isPlayerAvailable(String serial) {
         for (Player p:playerWatingQueue){
             if (p.getSerial().equals(serial))
                 return true;

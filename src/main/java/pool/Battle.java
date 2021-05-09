@@ -78,15 +78,15 @@ public class Battle {
     return null;
   }
 
-  public void winnerCheck() {
+  public void winnerCheck() throws CloneNotSupportedException {
     System.out.println("in winner check");
     System.out.println(this.player1.getAttackTime());
     System.out.println(this.player2.getAttackTime());
     if(this.player1.getAttackTime()!=null && this.player2.getAttackTime()!=null){
       if (Long.parseLong(this.player1.getAttackTime())< Long.parseLong(this.player2.getAttackTime())){
-        this.winner=player1;
+        this.winner= (Player) player1.clone();
       }else
-        this.winner=player2;
+        this.winner= (Player) player2.clone();
     }
   }
 }

@@ -1,6 +1,6 @@
 package pool;
 
-public class Player {
+public class Player implements Cloneable {
   private String serial;
   private String name;
   private String attackTime;
@@ -31,5 +31,10 @@ public class Player {
 
     public void setAttackTime(String attackTime) {
         this.attackTime = attackTime;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
