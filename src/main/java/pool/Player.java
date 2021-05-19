@@ -3,7 +3,7 @@ package pool;
 public class Player implements Cloneable {
   private String serial;
   private String name;
-  private String attackTime;
+  private String attackTime=null;
     public Player(String serial, String name) {
         this.serial = serial;
         this.name = name;

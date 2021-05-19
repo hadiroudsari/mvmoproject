@@ -8,7 +8,7 @@ public class Battle {
   private Player winner;
   private static int idCounter=1;
   private boolean busy;
-
+  private String BattleTime;
   public Battle(Player player1, Player player2) {
     this.battleId= String.valueOf(idCounter++);
     this.player1 = player1;
@@ -55,6 +55,14 @@ public class Battle {
     this.winner = winner;
   }
 
+  public String getBattleTime() {
+    return BattleTime;
+  }
+
+  public void setBattleTime(String battleTime) {
+    BattleTime = battleTime;
+  }
+
   public boolean isPlayerValid(String id) {
     if(this.player1.getSerial().equals(id) || this.player2.getSerial().equals(id))
       return true;
@@ -78,7 +86,7 @@ public class Battle {
     return null;
   }
 
-  public void winnerCheck() throws CloneNotSupportedException {
+  public synchronized void winnerCheck() throws CloneNotSupportedException {
     System.out.println("in winner check");
     System.out.println(this.player1.getAttackTime());
     System.out.println(this.player2.getAttackTime());

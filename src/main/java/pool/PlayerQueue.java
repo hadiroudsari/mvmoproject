@@ -26,7 +26,9 @@ public class PlayerQueue {
         if(playerWatingQueue.size()>=2){
             Player player1=playerWatingQueue.poll();
             Player player2=playerWatingQueue.poll();
-            BattleQueue.getInstance().addBattle(new Battle(player1,player2));
+            Battle battle=new Battle(player1,player2);
+            battle.setBattleTime( (System.currentTimeMillis()+20000l)+"");
+            BattleQueue.getInstance().addBattle(battle);
         }
     }
 

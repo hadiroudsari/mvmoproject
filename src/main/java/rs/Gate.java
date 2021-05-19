@@ -19,18 +19,19 @@ public class Gate {
         //check if the player is already existto prevent from making new player
         if (!PlayerQueue.getInstance().isPlayerAvailable(serial) && BattleQueue.getInstance().isPlayerAvailable(serial) == null) {
             PlayerQueue.getInstance().addPlayer(new Player(serial, name));
-            c = new Common("startok", "false", "", "", "");
+            c = new Common("startok", "false", "", "", "", "");
             return c;
         } else if (PlayerQueue.getInstance().isPlayerAvailable(serial) && BattleQueue.getInstance().isPlayerAvailable(serial) == null) {
-            c = new Common("alreadystarted", "false", "", "", "");
+            c = new Common("alreadystarted", "false", "", "", "", "");
             return c;
-        } else if ( BattleQueue.getInstance().isPlayerAvailable(serial) != null) {
+        } else if (BattleQueue.getInstance().isPlayerAvailable(serial) != null) {
             String opponent = BattleQueue.getInstance().isPlayerAvailable(serial).getOpponent(serial).getName();
             String battleId = BattleQueue.getInstance().isPlayerAvailable(serial).getBattleId();
-            c = new Common("attack", "false", opponent, battleId, "");
+            String duelTime = BattleQueue.getInstance().isPlayerAvailable(serial).getBattleTime();
+            c = new Common("attack", "false", opponent, battleId, "", duelTime);
             return c;
         } else {
-            c = new Common("no", "false", "", "", "");
+            c = new Common("no", "false", "", "", "", "");
             return c;
         }
     }
@@ -44,8 +45,9 @@ public class Gate {
         if (BattleQueue.getInstance().isPlayerAvailable(serial) != null) {
             String opponent = BattleQueue.getInstance().isPlayerAvailable(serial).getOpponent(serial).getName();
             String battleId = BattleQueue.getInstance().isPlayerAvailable(serial).getBattleId();
-            c = new Common("ok", "false", opponent, battleId, "");
-        } else c = new Common("wait", "false", "null", "-1", "");
+            String duelTime = BattleQueue.getInstance().isPlayerAvailable(serial).getBattleTime();
+            c = new Common("attack", "false", opponent, battleId, "", duelTime);
+        } else c = new Common("wait", "false", "null", "-1", "", "");
         return c;
     }
 
@@ -56,9 +58,20 @@ public class Gate {
             , @PathParam("serial") String serial
             , @PathParam("time") String time) throws CloneNotSupportedException {
         System.out.println(serial);
-        BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).setAttackTime(time);
-        BattleQueue.getInstance().isPlayerAvailable(serial).winnerCheck();
-        Common c = new Common("ok", "false", "", "null", "");
+        Common c = new Common("", "false", "", "null", "", "");
+        if (BattleQueue.getInstance().isPlayerAvailable(serial) != null &&
+                BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).getAttackTime() == null) {
+            BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).setAttackTime(time);
+            if (BattleQueue.getInstance().isPlayerAvailable(serial).getWinner() == null) {
+                BattleQueue.getInstance().isPlayerAvailable(serial).winnerCheck();
+            }
+            c = new Common("ok", "false", "", "null", "", "");
+        } else if (BattleQueue.getInstance().isPlayerAvailable(serial) != null &&
+                BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).getAttackTime() != null) {
+            c = new Common("alreadyattacked", "false", "", "null", "", "");
+        } else {
+            c = new Common("nobattle", "false", "", "null", "", "");
+        }
         return c;
     }
 
@@ -66,15 +79,20 @@ public class Gate {
     @Produces("application/json")
     @Path("check/{name}/{serial}")
     public Common check(@PathParam("name") String name
-            , @PathParam("serial") String serial) {
+            , @PathParam("serial") String serial) throws CloneNotSupportedException {
         System.out.println(serial);
         String winner = null;
+        if (BattleQueue.getInstance().isPlayerAvailable(serial) != null && BattleQueue.getInstance().isPlayerAvailable(serial).getWinner() == null) {
+            BattleQueue.getInstance().isPlayerAvailable(serial).getOpponent(serial).setAttackTime("99999999999999999");
+            BattleQueue.getInstance().isPlayerAvailable(serial).winnerCheck();
+        }
         if (BattleQueue.getInstance().isPlayerAvailable(serial).getWinner() != null) {
             winner = BattleQueue.getInstance().isPlayerAvailable(serial).getWinner().getName();
             BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).setName("final");
+            BattleQueue.getInstance().removeBattle(BattleQueue.getInstance().isPlayerAvailable(serial));
         }
-        BattleQueue.getInstance().removeBattle(BattleQueue.getInstance().isPlayerAvailable(serial));
-        Common c = new Common("ok", "false", "man", "null", winner);
+//        BattleQueue.getInstance().removeBattle(BattleQueue.getInstance().isPlayerAvailable(serial));
+        Common c = new Common("ok", "false", "man", "null", winner, "");
         return c;
     }
 
