@@ -62,13 +62,16 @@ public class Gate {
         if (BattleQueue.getInstance().isPlayerAvailable(serial) != null &&
                 BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).getAttackTime() == null) {
             BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).setAttackTime(time);
+            String battleId=BattleQueue.getInstance().isPlayerAvailable(serial).getBattleId();
             if (BattleQueue.getInstance().isPlayerAvailable(serial).getWinner() == null) {
                 BattleQueue.getInstance().isPlayerAvailable(serial).winnerCheck();
             }
-            c = new Common("ok", "false", "", "null", "", "");
+            c = new Common("ok", "false", "", battleId, "", "");
         } else if (BattleQueue.getInstance().isPlayerAvailable(serial) != null &&
                 BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).getAttackTime() != null) {
-            c = new Common("alreadyattacked", "false", "", "null", "", "");
+            String battleId=BattleQueue.getInstance().isPlayerAvailable(serial).getBattleId();
+
+            c = new Common("alreadyattacked", "false", "", battleId, "", "");
         } else {
             c = new Common("nobattle", "false", "", "null", "", "");
         }
@@ -77,9 +80,9 @@ public class Gate {
 
     @GET
     @Produces("application/json")
-    @Path("check/{name}/{serial}")
+    @Path("check/{name}/{serial}/{battleId}")
     public Common check(@PathParam("name") String name
-            , @PathParam("serial") String serial) throws CloneNotSupportedException {
+            , @PathParam("serial") String serial,@PathParam("battleId") String battleId) throws CloneNotSupportedException {
         System.out.println(serial);
         String winner = null;
         if (BattleQueue.getInstance().isPlayerAvailable(serial) != null && BattleQueue.getInstance().isPlayerAvailable(serial).getWinner() == null) {
@@ -89,7 +92,10 @@ public class Gate {
         if (BattleQueue.getInstance().isPlayerAvailable(serial).getWinner() != null) {
             winner = BattleQueue.getInstance().isPlayerAvailable(serial).getWinner().getName();
             BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).setName("final");
-            BattleQueue.getInstance().removeBattle(BattleQueue.getInstance().isPlayerAvailable(serial));
+//            BattleQueue.getInstance().removeBattle(BattleQueue.getInstance().isPlayerAvailable(serial));
+            BattleQueue.getInstance().isPlayerAvailable(serial).findPlayerById(serial).setSerial("");
+            BattleQueue.getInstance().removeBattle(BattleQueue.getInstance().isBattleAvailable(battleId));
+
         }
 //        BattleQueue.getInstance().removeBattle(BattleQueue.getInstance().isPlayerAvailable(serial));
         Common c = new Common("ok", "false", "man", "null", winner, "");

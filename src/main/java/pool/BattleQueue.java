@@ -25,6 +25,16 @@ public class BattleQueue {
         return null;
     }
 
+    public Battle isBattleAvailable(String id){
+
+        for(Battle b: battleLinkedList){
+            if( b.getBattleId().equals(id)){
+                return b;
+            }
+        }
+        return null;
+    }
+
     public synchronized void addBattle(Battle battle) {
         System.out.println("Adding battle");
         battleLinkedList.add(battle);
