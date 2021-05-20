@@ -12,19 +12,22 @@ import javax.ws.rs.core.MediaType;
 public class Gate {
     @GET
     @Produces("application/json")
-    @Path("start/{name}/{serial}")
-    public Common start(@PathParam("name") String name, @PathParam("serial") String serial) {
+    @Path("start/{name}/{serial}/{counter}")
+    public Common start(@PathParam("name") String name, @PathParam("serial") String serial,@PathParam("counter") String counter) {
         System.out.println(serial);
         Common c;
         //check if the player is already existto prevent from making new player
-        if (!PlayerQueue.getInstance().isPlayerAvailable(serial) && BattleQueue.getInstance().isPlayerAvailable(serial) == null) {
+        if(Integer.parseInt(counter)>=7 && BattleQueue.getInstance().isPlayerAvailable(serial) == null && PlayerQueue.getInstance().isPlayerAvailable(serial)){
+            PlayerQueue.getInstance().removePlayer(serial);
+        }
+        if (!PlayerQueue.getInstance().isPlayerAvailable(serial) && BattleQueue.getInstance().isPlayerAvailable(serial) == null  && Integer.parseInt(counter)<7) {
             PlayerQueue.getInstance().addPlayer(new Player(serial, name));
             c = new Common("startok", "false", "", "", "", "");
             return c;
-        } else if (PlayerQueue.getInstance().isPlayerAvailable(serial) && BattleQueue.getInstance().isPlayerAvailable(serial) == null) {
+        } else if (PlayerQueue.getInstance().isPlayerAvailable(serial) && BattleQueue.getInstance().isPlayerAvailable(serial) == null && Integer.parseInt(counter)<7) {
             c = new Common("alreadystarted", "false", "", "", "", "");
             return c;
-        } else if (BattleQueue.getInstance().isPlayerAvailable(serial) != null) {
+        } else if (BattleQueue.getInstance().isPlayerAvailable(serial) != null && Integer.parseInt(counter)<7) {
             String opponent = BattleQueue.getInstance().isPlayerAvailable(serial).getOpponent(serial).getName();
             String battleId = BattleQueue.getInstance().isPlayerAvailable(serial).getBattleId();
             String duelTime = BattleQueue.getInstance().isPlayerAvailable(serial).getBattleTime();
